@@ -32,6 +32,9 @@ public class ContextMenu extends PopupMenu implements ActionListener {
     private final static String CLONE_BLOCK = "CLONE";	//heqichen
     private static MenuItem cloneItem1 = null;	//heqichen
     private static MenuItem cloneItem2 = null;	//heqichen
+    private static MenuItem deleteItem = null;	//rsrini7
+    private final static String DELETE_BLOCK = "DELETE"; //rsrini7
+
     //context menu for canvas plus
     //menu items for canvas context menu
     private static ContextMenu canvasMenu = new ContextMenu();
@@ -55,14 +58,19 @@ public class ContextMenu extends PopupMenu implements ActionListener {
         addCommentItem.setActionCommand(ADD_COMMENT_BLOCK);
         addCommentItem.addActionListener(rndBlockMenu);
         addCommentMenu.add(addCommentItem);
-        
+
     	cloneItem1 = new MenuItem(uiMessageBundle.getString("ardublock.ui.clone"));
     	cloneItem1.setActionCommand(CLONE_BLOCK);
     	cloneItem1.addActionListener(rndBlockMenu);
         addCommentMenu.add(cloneItem1);
-        
+
         addCommentMenuInit = true;
-        
+
+        deleteItem = new MenuItem(uiMessageBundle.getString("ardublock.ui.delete_block"));
+		deleteItem.setActionCommand(DELETE_BLOCK);
+		deleteItem.addActionListener(rndBlockMenu);
+        addCommentMenu.add(deleteItem);
+
     }
 
     /**
@@ -146,15 +154,20 @@ public class ContextMenu extends PopupMenu implements ActionListener {
             if (activeComponent != null && activeComponent instanceof RenderableBlock) {
                 ((RenderableBlock) activeComponent).addComment();
             }
-        } else if (a.getActionCommand() == REMOVE_COMMENT_BLOCK) {
+		  } else if (a.getActionCommand() == REMOVE_COMMENT_BLOCK) {
             //notify the renderableblock componenet that lauched the conetxt menu
             if (activeComponent != null && activeComponent instanceof RenderableBlock) {
                 ((RenderableBlock) activeComponent).removeComment();
             }
         } else if (a.getActionCommand() == CLONE_BLOCK) {
-        	//notify the renderableblock componenet that lauched the conetxt menu
+				//notify the renderableblock componenet that lauched the conetxt menu
             if (activeComponent != null && activeComponent instanceof RenderableBlock) {
                 ((RenderableBlock) activeComponent).cloneMe();
+            }
+        } else if (a.getActionCommand() == DELETE_BLOCK) {
+				 //notify the renderableblock componenet that lauched the conetxt menu
+            if (activeComponent != null && activeComponent instanceof RenderableBlock) {
+                ((RenderableBlock) activeComponent).deleteMe();
             }
         }
     }

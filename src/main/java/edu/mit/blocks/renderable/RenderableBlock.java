@@ -1598,6 +1598,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return location;
 	}
 
+	public void deleteMe() {
+		BlockUtilities.deleteBlock(this);
+		workspace.notifyListeners(new WorkspaceEvent(workspace, this
+				.getParentWidget(), this.getBlockID(),
+				WorkspaceEvent.BLOCK_REMOVED, true));
+	}
+
 	public void cloneMe() {
 		cloneThis(this);
 		
