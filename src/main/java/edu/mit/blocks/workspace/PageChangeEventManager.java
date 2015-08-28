@@ -20,7 +20,7 @@ import java.util.Set;
 public class PageChangeEventManager {
 
     /** A NON-REPEATING set of page-change listeners */
-    private static Set<PageChangeListener> observers = new HashSet<PageChangeListener>();
+    private Set<PageChangeListener> observers = new HashSet<PageChangeListener>();
 
     /**
      * @param l - the listener to be added
@@ -30,7 +30,7 @@ public class PageChangeEventManager {
      * @effects subscribes a new listener to page changed events
      * @throws RuntimeException if l is null
      */
-    public static void addPageChangeListener(PageChangeListener l) {
+    public void addPageChangeListener(PageChangeListener l) {
         if (l == null) {
             throw new RuntimeException("May not subsribe a null listener to PageChanged events");
         }
@@ -42,7 +42,7 @@ public class PageChangeEventManager {
      * @modifies all subscribing page change listeners
      * @effects notifies all observers of Page Changed events to update themselves
      */
-    public static void notifyListeners() {
+    public void notifyListeners() {
         for (PageChangeListener l : observers) {
             l.update();
         }

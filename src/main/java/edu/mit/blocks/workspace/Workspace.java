@@ -106,7 +106,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
      * so it is controlled by the Workspace, but it is also a regular WorkspaceWidget
      * for the purposes of drag and drop.
      */
-    private BlockCanvas blockCanvas = new BlockCanvas(this);
+    private BlockCanvas blockCanvas;
 
     /** blockCanvasLayer allows for static components to be laid out beside the block canvas.  One example of
      * such a component would be a static block factory.  In user testing, we found that novice users performed
@@ -131,8 +131,12 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     public final static Integer DRAGGED_BLOCK_HIGHLIGHT_LAYER = new Integer(4);
     public final static Integer DRAGGED_BLOCK_LAYER = new Integer(5);
 
-    public Workspace() {
+    public Workspace(WorkspaceEnvironment env) {
         super();
+		  this.env = env;
+
+		  blockCanvas = new BlockCanvas(this);
+
         setLayout(null);
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(800, 600));

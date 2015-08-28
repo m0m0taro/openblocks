@@ -297,17 +297,6 @@ public class WorkspaceController {
     }
 
     /**
-     * Resets the current language within the active
-     * Workspace.
-     *
-     */
-    public void resetLanguage() {
-        BlockConnectorShape.resetConnectorShapeMappings();
-        getWorkspace().getEnv().resetAllGenuses();
-        BlockLinkChecker.reset();
-    }
-
-    /**
      * Returns the save string for the entire workspace.  This includes the block workspace, any
      * custom factories, canvas view state and position, pages
      * @return the save string for the entire workspace.
@@ -694,7 +683,9 @@ public class WorkspaceController {
      * invoked from the event-dispatching thread.
      */
     private void createAndShowGUI() {
-        frame = new JFrame("WorkspaceDemo");
+		String dir = System.getProperty("user.dir");
+		String[] split = dir.split("\\" + File.separator);
+		  frame = new JFrame(split[split.length -1] + " "+ System.getProperty("java.version"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBounds(100, 100, 800, 600);
         final SearchBar sb = new SearchBar("Search blocks",

@@ -386,7 +386,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
             }
         }
 
-        PageChangeEventManager.notifyListeners();
+        workspace.getEnv().notifyListeners();
     }
 
     /**
@@ -513,7 +513,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
         }
 
         //repaint all pages
-        PageChangeEventManager.notifyListeners();
+        workspace.getEnv().notifyListeners();
     }
 
     /**
@@ -1060,7 +1060,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
                 }
                 fullview = !fullview;
                 pageJComponent.setFullView(fullview);
-                PageChangeEventManager.notifyListeners();
+                workspace.getEnv().notifyListeners();
             }
         }
 
@@ -1169,6 +1169,7 @@ class PageJComponent extends JLayeredPane implements RBParent {
     /** @overrides RBParent.addToBlockLayer() */
     @Override
     public void addToBlockLayer(Component c) {
+		 this.remove(c);
         this.add(c, BLOCK_LAYER);
 
     }

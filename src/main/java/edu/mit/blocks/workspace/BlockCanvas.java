@@ -83,7 +83,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
         canvas.setLayout(null);
         canvas.setBackground(Color.gray);
         canvas.setOpaque(true);
-        PageChangeEventManager.addPageChangeListener(this);
+        workspace.getEnv().addPageChangeListener(this);
     }
 
     /**
@@ -308,7 +308,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
         PageDivider pd = new PageDivider(workspace, page);
         dividers.add(pd);
         canvas.add(pd, 0);
-        PageChangeEventManager.notifyListeners();
+        workspace.getEnv().notifyListeners();
     }
 
     /**
@@ -340,7 +340,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
             canvas.remove(page.getJComponent());
             canvas.revalidate();
             canvas.repaint();
-            PageChangeEventManager.notifyListeners();
+            workspace.getEnv().notifyListeners();
         }
         return page;
     }
@@ -496,7 +496,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
             if (canvasWidth < screenWidth) {
                 Page p = pages.get(pages.size() - 1);
                 p.addPixelWidth(screenWidth - canvasWidth);
-                PageChangeEventManager.notifyListeners();
+                workspace.getEnv().notifyListeners();
             }
         }
 
