@@ -23,10 +23,18 @@ import edu.mit.blocks.workspace.WorkspaceListener;
  */
 public class BlockLinkChecker {
 
+	 private static ArrayList<LinkRule> rules = new ArrayList<LinkRule>();
     // TODO get a better value
     private static double MAX_LINK_DISTANCE = 20.0;
 
     /**
+		* Clears all the rules within this.
+		*/
+		public static void reset() {
+			rules.clear();
+		}
+
+	 /**
      * Adds a rule to the end of this checker's list of rules.
      * If the rule already exists in the rule list, the rule is removed in the original location and 
      * added to the end of the list.

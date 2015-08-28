@@ -60,12 +60,15 @@ import edu.mit.blocks.codeblocks.BlockLinkChecker;
 import edu.mit.blocks.codeblocks.CommandRule;
 import edu.mit.blocks.codeblocks.Constants;
 import edu.mit.blocks.codeblocks.SocketRule;
+import edu.mit.blocks.codeblockutil.custom.DefaultBlockLabelBuilder;
+import edu.mit.blocks.codeblockutil.custom.IBlockLabelBuilder;
 import edu.mit.blocks.codeblocks.ParamRule;
 import edu.mit.blocks.codeblocks.PolyRule;
 import edu.mit.blocks.codeblocks.StackRule;
 import edu.mit.blocks.workspace.SearchBar;
 import edu.mit.blocks.workspace.SearchableContainer;
 import edu.mit.blocks.workspace.Workspace;
+import edu.mit.blocks.workspace.WorkspaceEnvironment;
 
 /**
  * Example entry point to OpenBlock application creation.
@@ -110,8 +113,13 @@ public class WorkspaceController {
      * interaction with the codeblocks.Workspace
      *
      */
-    public WorkspaceController() {
-        this.workspace = new Workspace();
+	 public WorkspaceController() {
+			this(new DefaultBlockLabelBuilder());
+	 }
+
+	 public WorkspaceController(IBlockLabelBuilder blockLabelBuilder) {
+			WorkspaceEnvironment env = new WorkspaceEnvironment(blockLabelBuilder);
+			this.workspace = new Workspace(env);
         pom = new ProcedureOutputManager(workspace);	//*****
     }
     
@@ -296,7 +304,18 @@ public class WorkspaceController {
         langDefDirty = false;
     }
 
-    /**
+	/**
+	 * Resets the current language within the active
+	 * Workspace.
+	 *
+	 */
+	 public void resetLanguage() {
+			BlockConnectorShape.resetConnectorShapeMappings();
+			getWorkspace().getEnv().resetAllGenuses();
+			BlockLinkChecker.reset();
+	 }
+
+	 /**
      * Returns the save string for the entire workspace.  This includes the block workspace, any
      * custom factories, canvas view state and position, pages
      * @return the save string for the entire workspace.
@@ -337,7 +356,7 @@ public class WorkspaceController {
      * against the code blocks schema
      * @return the DOM node for the entire workspace.
      */
-    public Node getSaveNode(final boolean validate) {
+    public Node getSaveNode(boolean validate) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);

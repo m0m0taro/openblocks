@@ -48,7 +48,7 @@ class SocketLabel extends BlockLabel {
     }
 
     @Override
-    protected void textChanged(String text) {
+    public void textChanged(String text) {
         // Prevents running this when sockets are null.
         // Sockets can be null during loading.
         if (socket != null) {

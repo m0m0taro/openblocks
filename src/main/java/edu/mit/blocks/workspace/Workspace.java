@@ -57,7 +57,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     private static final long serialVersionUID = 328149080422L;
 
     // the environment wrapps all the components of a workspace (Blocks, RenderableBlocks, BlockStubs, BlockGenus)
-    private final WorkspaceEnvironment env = new WorkspaceEnvironment();
+    private final WorkspaceEnvironment env;
 
     public WorkspaceEnvironment getEnv() {
         return this.env;

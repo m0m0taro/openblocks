@@ -67,37 +67,39 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
         //call other constructor
         this(workspace, initLabelText, labelType, isEditable, -1, false, tooltipBackground);
     }
-
+    
     public BlockLabel(Workspace workspace, String initLabelText, BlockLabel.Type labelType, boolean isEditable, long blockID, boolean hasComboPopup, Color tooltipBackground) {
-        this.workspace = workspace;
-        if (Block.NULL.equals(blockID)) {
-            throw new RuntimeException("May not pass a null block instance as the parent of a block label");
-        }
-        if (initLabelText == null) {
-            initLabelText = "";
-        }
-        this.blockID = blockID;
-        this.labelType = labelType;
-        widget = new LabelWidget(initLabelText, workspace.getEnv().getBlock(blockID).getColor().darker(), tooltipBackground) {
+    	this.workspace = workspace;
+    	init(workspace, initLabelText, labelType, blockID);
+    	widget = new LabelWidget(initLabelText, workspace.getEnv().getBlock(blockID).getColor().darker(), tooltipBackground);
+    	initWidget(initLabelText, isEditable, hasComboPopup);
+    }
 
-            private static final long serialVersionUID = 328149080424L;
+    public BlockLabel(Workspace workspace, LabelWidget labelWidget, String initLabelText, BlockLabel.Type labelType, boolean isEditable, long blockID, boolean hasComboPopup, Color tooltipBackground) {
+    	this.workspace = workspace;
+    	init(workspace, initLabelText, labelType, blockID);
+    	widget = labelWidget;
+    	widget.setPreferredSize(new Dimension(200,200));
+    	initWidget(initLabelText, isEditable, hasComboPopup);
+    }
+    
+    private void init(Workspace workspace, String initLabelText, BlockLabel.Type labelType, Long blockID) {
+    if (Block.NULL.equals(blockID)) {
+        throw new RuntimeException("May not pass a null block instance as the parent of a block label");
+    }
 
-            protected void fireTextChanged(String text) {
-                textChanged(text);
-            }
-
-            protected void fireGenusChanged(String genus) {
-                genusChanged(genus);
-            }
-
-            protected void fireDimensionsChanged(Dimension value) {
-                dimensionsChanged(value);
-            }
-
-            protected boolean isTextValid(String text) {
-                return textValid(text);
-            }
-        };
+    this.blockID = blockID;
+    this.labelType = labelType;
+    }
+    
+    private void initWidget(String initLabelText, boolean isEditable, boolean hasComboPopup) {
+    
+    widget.setBlockLabel(this);
+    
+    if (initLabelText == null) {
+    	initLabelText = "";
+    }
+    
         widget.setNumeric(workspace.getEnv().getBlock(this.blockID).getGenusName().equals("number"));
 
         // Only editable if the isEditable parameter was true, the label is either a Block's name or
@@ -235,7 +237,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
         return blockID;
     }
 
-    protected void textChanged(String text) {
+    public void textChanged(String text) {
         if ((this.labelType.equals(BlockLabel.Type.NAME_LABEL) || this.labelType.equals(BlockLabel.Type.PORT_LABEL))
                 && workspace.getEnv().getBlock(blockID).isLabelEditable()) {
             if (this.labelType.equals(BlockLabel.Type.NAME_LABEL)) {
@@ -263,7 +265,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
         }
     }
 
-    protected void genusChanged(String genus) {
+    public void genusChanged(String genus) {
         if (widget.hasSiblings()) {
             Block oldBlock = workspace.getEnv().getBlock(blockID);
             oldBlock.changeGenusTo(genus);
@@ -273,13 +275,13 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
         }
     }
 
-    protected void dimensionsChanged(Dimension value) {
+    public void dimensionsChanged(Dimension value) {
         if (workspace.getEnv().getRenderableBlock(blockID) != null) {
         	workspace.getEnv().getRenderableBlock(blockID).repaintBlock();
         }
     }
 
-    protected boolean textValid(String text) {
+    public boolean textValid(String text) {
         return !text.equals("")
                 && BlockUtilities.isLabelValid(workspace, blockID, text);
     }

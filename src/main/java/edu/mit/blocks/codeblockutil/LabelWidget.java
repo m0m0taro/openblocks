@@ -36,7 +36,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public abstract class LabelWidget extends JComponent {
+import edu.mit.blocks.renderable.BlockLabel;
+
+public class LabelWidget extends JComponent {
 
     public static final int DROP_DOWN_MENU_WIDTH = 7;
     private static final long serialVersionUID = 837647234895L;
@@ -68,7 +70,10 @@ public abstract class LabelWidget extends JComponent {
     private Color tooltipBackground = new Color(255, 255, 225);
     private double zoom = 1.0;
 
-    /**
+
+	 private BlockLabel blockLabel;
+
+     /**
      * BlockLabel Constructor that takes in BlockID as well.
      * Unfortunately BlockID is needed, so the label can redirect mouse actions.
      *
@@ -92,13 +97,25 @@ public abstract class LabelWidget extends JComponent {
         textField.setMargin(textFieldBorder.getBorderInsets(textField));
     }
 
-    protected abstract void fireTextChanged(String value);
+	public void setBlockLabel(BlockLabel blockLabel) {
+		this.blockLabel = blockLabel;
+	}
 
-    protected abstract void fireGenusChanged(String value);
+	protected void fireTextChanged(String text) {
+	blockLabel.textChanged(text);
+	}
 
-    protected abstract void fireDimensionsChanged(Dimension value);
+	protected void fireGenusChanged(String genus) {
+		blockLabel.genusChanged(genus);
+	}
 
-    protected abstract boolean isTextValid(String text);
+	protected void fireDimensionsChanged(Dimension value) {
+		blockLabel.dimensionsChanged(value);
+	}
+
+	protected boolean isTextValid(String text) {
+		return blockLabel.textValid(text);
+	}
 
     public void addKeyListenerToTextField(KeyListener l) {
         textField.addKeyListener(l);
