@@ -257,6 +257,17 @@ public class WorkspaceController {
         			elm.setAttribute("name", altName);
         		}
         	}
+         	nodes = doc.getElementsByTagName("DefaultArg");
+        	for (int i = 0 ; i < nodes.getLength(); i++) {
+        		Element elm = (Element)nodes.item(i);
+        		String name = elm.getAttribute("label");
+        		if (name.startsWith("bg.")) {
+					String altName = langResourceBundle.getString(name);
+					if (altName != null) {
+						elm.setAttribute("label", altName);
+					}
+				}
+        	}
         	nodes = doc.getElementsByTagName("BlockConnector");
         	for (int i = 0 ; i < nodes.getLength(); i++) {
         		Element elm = (Element)nodes.item(i);
@@ -268,7 +279,7 @@ public class WorkspaceController {
 					}
 				}
         	}
-        }
+       }
     }
 
     /**
