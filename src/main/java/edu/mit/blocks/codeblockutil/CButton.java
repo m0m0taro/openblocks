@@ -38,7 +38,7 @@ public class CButton extends JButton implements MouseListener {
     static float[] BLUR = {0.10f, 0.10f, 0.10f, 0.10f, 0.30f, 0.10f, 0.10f, 0.10f, 0.10f};
 
     /** the inset of this button */
-    static final int INSET = 3;
+    static final int INSET = 2;
 
     /** The highlighting inset */
     static final int HIGHLIGHT_INSET = 2;
